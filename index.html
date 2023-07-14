@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div class="currentBalance__container">
+          <label for="currentBalance" class="label">Set Current Balance:</label>
+          <input type="text" id="currentBalance" v-model="currentBalance" v-bind:class="{ 'invalid': !isNumeric(currentBalance) }" />
+          <select v-model="currency" class="currency">
+            <option value="USD">$ (Dollar)</option>
+            <option value="GBP">£ (Pound)</option>
+            <option value="IRR">IRR (Iranian Toman)</option>
+          </select>
+          <button v-on:click="setBalance" :disabled="!isNumeric(currentBalance)" class="submit_btn">Set Balance</button>
+          <div class="displayBalance">
+            <h2>Current Balance: {{ displayBalance }}</h2>
+          </div>
+        </div>
+
+        
+
+        <div class="history">
+          <label for="Add new" class="add">Add New Expense</label>
+          <input type="text" id="goal" v-model="enteredValue" v-bind:class="{ 'invalid': !isNumeric(enteredValue) }" />
+          <select name="" id="selector" class="year__input" v-model="selectedOption">
+            <option value="type" selected disabled>Choose type</option>
+            <option value="transportation">Transportation</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Health">Health</option>
+            <option value="Travel">Travel</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Dining">Dining</option>
+            <option value="Phone/Internet">Phone/Internet</option>
+            <option value="Utilities">Utilities</option>
+            <option value="custom">Other (Enter your own)</option>
+          </select>
+          <input type="text" v-if="selectedOption === 'custom'" v-model="customOption" placeholder="Enter your own option" />
+          <button v-on:click="addExpense" :disabled="!isNumeric(enteredValue)" class="add_btn">Add</button>
+        </div>
+
+        <ul class="expense__tracker">
+          <li v-for="(expense, index) in expenses" class="list">
+            <p class="amount">{{ expense.amount }}</p>
+            <p class="type">{{ expense.option }}</p>
+            <div class="button__container">
+              <button v-on:click="removeExpense(index)" class="remove__btn">Remove</button>
+              <button v-on:click="editExpense(index)" class="edit__btn">Edit</button>
+            </div>
+            
+          </li>
+        </ul>
+    </div>
+
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="./app.js"></script>
+</body>
+</html>
